@@ -103,4 +103,47 @@ resultsContainer.addEventListener('click', async (e) => {
       }
     }
   });
-  
+
+  //fetching and displaying 
+  function fetchUserRepositories(username) {
+    // Use fetch to make a GET request to the User Repos Endpoint
+    fetch(`https://api.github.com/users/${username}/repos`, {
+        headers: {
+            'Accept': 'application/vnd.github.v3+json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        displayUserRepositories(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function displayUserRepositories(repositories) {
+    userRepos.innerHTML = ''; // Clear previous results
+
+    if (repositories.length === 0) {
+        userRepos.innerHTML = '<p>No repositories found for this user.</p>';
+        return;
+    }
+
+    repositories.forEach(repo => {
+        const repoCard = document.createElement('div');
+        repoCard.classList.add('repo-card');
+
+        const repoName = document.createElement('p');
+        repoName.textContent = repo.name;
+
+        const repoLink = document.createElement('a');
+        repoLink.href = repo.html_url;
+        repoLink.textContent = 'View Repo';
+        repoLink.target = '_blank';
+
+        repoCard.appendChild(repoName);
+        repoCard.appendChild(repoLink);
+
+        userRepos.appendChild(repoCard);
+    });
+}
