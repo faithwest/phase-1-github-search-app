@@ -55,3 +55,52 @@ searchForm.addEventListener('submit', async (e) => {
     }
   }
 });
+
+//display users// Attach a click event listener to the results container to handle user clicks on user items
+resultsContainer.addEventListener('click', async (e) => {
+    if (e.target.tagName === 'A') {
+      // Check if the clicked element is an anchor (link)
+      e.preventDefault(); // Prevent the default link behavior
+      const userURL = e.target.href; // Get the URL of the user's profile page
+  
+      try {
+        // Create a URL for the user's repositories endpoint
+        const userReposURL = `${userURL}/repos`;
+        const response = await fetch(userReposURL, {
+          headers: {
+            Accept: 'application/vnd.github.v3+json', // Specify the GitHub API version
+          },
+        });
+  
+        if (!response.ok) {
+          // If the response status is not okay, display an error message
+          resultsContainer.innerHTML = `<p>Error: ${response.statusText}</p>`;
+          return;
+        }
+  
+        const repos = await response.json(); // Parse the response data as JSON
+  
+        if (repos.length === 0) {
+          // If no repositories were found, display a message
+          resultsContainer.innerHTML = '<p>No repositories found for this user.</p>';
+        } else {
+          // If repositories were found, create HTML for displaying repository information
+          const repoListHTML = repos
+            .map((repo) => {
+              return `
+                <div class="repo">
+                  <p><a href="${repo.html_url}" target="_blank">${repo.name}</a></p>
+                </div>
+              `;
+            })
+            .join(''); // Join the HTML for each repository into a single string
+  
+          resultsContainer.innerHTML = repoListHTML; // Display the repository list on the page
+        }
+      } catch (error) {
+        // Handle any errors that occurred during the fetch or processing of data
+        resultsContainer.innerHTML = `<p>Error: ${error.message}</p>`;
+      }
+    }
+  });
+  
