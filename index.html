@@ -1,33 +1,24 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset='UTF-8'/>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
-  <meta http-equiv='X-UA-Compatible' content='ie=edge'/>
-  <title>Document</title>
-  <script src='js/index.js'></script>
-  <link rel='stylesheet' href='index.css'/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub User Search</title>
 </head>
 <body>
-  <div id='main'>
+    <h1>GitHub User Search</h1>
 
-    <h2>GitHub Search</h2>
-
-    <form id='github-form'>
-      <input id='search' type='text' name='search'>
-      <input type='submit' name='submit'/>
+    <!-- Step 1: Form for user input -->
+    <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Enter GitHub username">
+        <button type="submit">Search</button>
     </form>
 
-    <div id='github-container'>
-      <ul id='user-list'>
+    <!-- Step 2: Empty elements to display results -->
+    <div id="userList"></div>
+    <div id="repoList"></div>
 
-      </ul>
-
-      <ul id='repos-list'>
-
-      </ul>
-    </div>
-
-  </div>
-
+    <!-- Include the JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
